@@ -15,7 +15,7 @@
         pgrole: 'jackett'
         intport: '9117'
         extport: '9117'
-        image: 'linuxserver/jackett'
+        image: 'linuxserver/jackett:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -91,6 +91,17 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
+
+    # CLOUDPROXY CONFIG ################################################
+    - name: 'Deploying cloudproxy'
+      docker_container:
+        name: 'cloudproxy'
+        image: 'flaresolverr/flaresolverr'
+        pull: yes
+        restart_policy: unless-stopped
+        networks:
+          - name: plexguide
+        state: started
 
     # CONFIGURATION ####################################################
     - name: 'Waiting for {{pgrole}} to initialize'
