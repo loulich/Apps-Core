@@ -64,7 +64,6 @@
       set_fact:
         pg_volumes:
           - '/etc/localtime:/etc/localtime:ro'
-          - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
           - '/opt/appdata/{{pgrole}}:/config/Jackett'
 
@@ -98,6 +97,8 @@
         name: 'cloudproxy'
         image: 'flaresolverr/flaresolverr'
         pull: yes
+        env:
+          CAPTCHA_SOLVER: "hcaptcha-solver"
         restart_policy: unless-stopped
         networks:
           - name: plexguide
